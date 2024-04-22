@@ -13,7 +13,7 @@ def is_palindrome(word: str) -> bool:
                     flag = False
                     break
         return flag
-    except TypeError:
+    except TypeError:               #* Adding the exeption for TypeError 
         return "invalid Input"
 
 
