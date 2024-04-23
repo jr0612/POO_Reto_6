@@ -1,16 +1,16 @@
 def prime_numbers(numbers: list) -> list:
     if not isinstance(numbers, list):
         raise TypeError("The input must be list")
-        #  raising an error for non-list input
+        #  * raising an error for non-list input
     if not numbers:
         raise ValueError("The input list is empty")
-        #  raising and error for empty list
+        #  * raising and error for empty list
     prime_numbers = []
 
     def is_prime(number):
         if not isinstance(number, int):
             raise TypeError("The input must be integer")
-            # raising an error for non-integer input
+            # * raising an error for non-integer input
 
         if number <= 1:
             return False
@@ -31,6 +31,9 @@ def prime_numbers(numbers: list) -> list:
 
 def perform_prime_numbers(numbers):
     try:
+        """
+        adding exeptions for the raised errors
+        """
         return prime_numbers(numbers)
     except (TypeError, ValueError) as e:
         print("Error:", e)
