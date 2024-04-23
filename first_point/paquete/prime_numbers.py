@@ -29,16 +29,12 @@ def prime_numbers(numbers: list) -> list:
     return prime_numbers
 
 
-try:
-    print(prime_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, "10"]))
-#    print(prime_numbers([]))
-#    print(prime_numbers(5))
-#    print(prime_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))
+def perform_prime_numbers(numbers):
+    try:
+        return prime_numbers(numbers)
+    except (TypeError, ValueError) as e:
+        print("Error:", e)
 
-except (TypeError, ValueError) as e:
-    print("Error:", e)
 
-try:
-    print(prime_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]))
-except (TypeError, ValueError) as identifier:
-    print("Error:", identifier)
+print(perform_prime_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, "10"]))
+print("The execution flow don't stop")
