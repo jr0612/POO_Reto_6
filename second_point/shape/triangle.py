@@ -43,16 +43,25 @@ class Triangle(Shape):
 
 
 class Isosceles(Triangle):
+    # todo implement method to set Isoceles vertices correctly
+    # todo implement method to set Isoceles edges correctly
+
     pass
 
 
 class Equilateral(Triangle):
+    # todo implement method to set Equilateral vertices correctly
+    # todo implement method to set Equilateral edges correctly
     pass
 
 
 class Scalene(Triangle):
+    # todo implement method to set Scalene vertices correctly
+    # todo implement method to set Scalene correctly
     pass
 
 
 class TriRectangle(Triangle):
+    # todo implement method to set TriRectangle vertices correctly
+    # todo implement method to set TriRectangle edges correctly
     pass
