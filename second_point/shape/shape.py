@@ -86,8 +86,21 @@ class Shape:
 
     def compute_perimeter(self):
         raise NotImplementedError(
-            "Subclass should implemen compute_perimeter()")
+            "Subclass should implement compute_perimeter()")
 
     def compute_inner_angles(self):
         raise NotImplementedError(
-            "Subclass should implemen compute_inner+angles()")
+            "Subclass should implement compute_inner_angles()")
+
+    def create_vertices(self, vertices: list):
+        """
+        veryfiy if the vertices are valid
+        """
+        raise NotImplementedError(
+            "Subclass should implement create_vertices()")
+
+    def create_edges(self, vertices: list):
+        """
+        create edges if the vertices are valid
+        """
+        raise NotImplementedError("Subclass should implement create_edges()")
