@@ -62,7 +62,7 @@ class Triangle(Shape):
             vertices[2].compute_distance(vertices[0]),
         ]
         for side_length in side_lengths:
-            if side_length not in self.frec:
+            if (side_length) not in self.frec:
                 self.frec[side_length] = 1
             else:
                 self.frec[side_length] += 1
@@ -122,4 +122,10 @@ class Scalene(Triangle):
 
 
 class TriRectangle(Triangle):
-    # todo implement method to set TriRectangle vertices correctly
+    def create_tri_rectangle(
+        self,
+    ):
+        if any(inner_angle == 90 for inner_angle in self.get_inner_angles()):
+            return True
+        else:
+            raise ValueError("TriRectangle must have a 90 degree inner angle")
