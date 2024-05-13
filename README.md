@@ -400,3 +400,182 @@ print(perform_find_anagrams(134))
 
 ## Second point
 In the package `Shape` identify at least cases where exceptions are needed (maybe when validate input data, or math procedures) explain them clearly using comments and add them to the code.
+
+### Identification of exceptions cases in the Shape package
+Upon reviewing the package, I identified the following cases:
+- Exceptions for the creations of Rectangle shapes.
+- Exceptions for the creations of Square shapes.
+- Exceptions for the creations of all types of Triangles shapes.
+
+### Handling Exceptions in Shape Creation
+#### Adding methods in the Shape class
+The first step was the creation of the methods create_vertices and create_edges in the Shape class, so they could be inherited for all types of shapes.
+#### Implementing Polymorphism Across Shape Types
+Then, I proceeded with defining the methods for all the shapes, applying polymorphism.
+##### Rectangle
+For this shape, I raise the following errors regarding the required data quantity, data type, and their expected formats.
+```python
+    # todo implement method to set Rectangle vertices correctly
+    def create_vertices(self, vertices: list):
+        if len(vertices) != 4:
+            raise ValueError(
+                "Rectangle must have 4 vertices"
+            )  # ! raise error if vertices are not 4
+
+        if not all(isinstance(vertex, Point) for vertex in vertices):
+            raise TypeError(
+                "Rectangle vertices must be Point objects"
+                # ! raise error if vertices are not Point objects
+            )
+
+        if (
+            vertices[0].get_x() == vertices[3].get_x()
+            and vertices[0].get_y() == vertices[1].get_y()
+            and vertices[1].get_x() == vertices[2].get_x()
+            and vertices[2].get_y() == vertices[3].get_y()
+        ):
+            self.set_vertices(vertices)  # set vertices
+        else:
+            raise ValueError(
+                "Rectangle vertices are not correct"
+            )  # raise error if vertices are not correct
+
+    # todo implement method to set Rectangle edges correctly
+    def create_edges(self, edges: list):
+        if len(edges) != 4:
+            raise ValueError(
+                "Rectangle must have 4 edges"
+            )  # ! raise error if edges are not 4
+        if not all(isinstance(edge, Line) for edge in edges):
+            raise TypeError(
+                "Rectangle edges must be Line objects"
+                # ! raise error if edges are not Line objects
+            )
+        if (
+            edges[0].get_length() == edges[2].get_length()
+            and edges[1].get_length() == edges[3].get_length()
+        ):
+            self.set_edges(edges)  # set edges
+        else:
+            raise ValueError(
+                "Rectangle edges are not correct"
+            )  # raise error if edges are not correct
+```
+##### Square
+For squares, I adapted the format while preserving the basic errors related to data type and length:
+```python
+  def create_vertices(self, vertices: list):
+        super().create_vertices(vertices)
+
+    def create_edges(self, edges: list):
+        super().create_edges(edges)
+        if (
+            self.get_edges()[0].get_length()
+            == self.get_edges()[1].get_length()
+            == self.get_edges()[2].get_length()
+            == self.get_edges()[3].get_length()
+        ):
+            self.set_edges(edges)
+
+        else:
+            raise ValueError("Square edges are not correct")
+```
+##### Triangles
+For triangles, I initially defined the base errors and then applied polymorphism to all types of triangles. I also handled the length and type of data, and created a frequency dictionary to later confirm if the types of triangles were set correctly:
+
+```python
+    # todo implement method to set Triangle vertices correctly
+    def create_vertices(self, vertices: list):
+        if len(vertices) != 3:
+            raise ValueError(
+                "Triangle must have 3 vertices"
+                # ! raise error if vertices are not 3
+            )
+        if not all(isinstance(vertex, Point) for vertex in vertices):
+            raise TypeError(
+                "Triangle vertices must be Point objects"
+                # ! raise error if vertices are not Point objects
+            )
+        side_lengths = [
+            vertices[0].compute_distance(vertices[1]),
+            vertices[1].compute_distance(vertices[2]),
+            vertices[2].compute_distance(vertices[0]),
+        ]
+        for side_length in side_lengths:
+            if (side_length) not in self.frec:
+                self.frec[side_length] = 1
+            else:
+                self.frec[side_length] += 1
+
+    # todo implement method to set Triangle edges correctly
+    def create_edges(self, edges: list):
+        if len(edges) != 3:
+            raise ValueError(
+                "Triangle must have 3 edges"
+                # ! raise error if edges are not 3
+            )
+        if not all(isinstance(edge, Line) for edge in edges):
+            raise TypeError(
+                "Triangle edges must be Line objects"
+                # ! raise error if edges are not Line objects
+            )
+        if self.get_vertices():
+            self.set_edges(edges)
+        else:
+            raise ValueError(
+                "Triangle edges are not correct"
+                # raise error if edges are not correct
+            )
+
+```
+
+
+
+After that, I added conditionals for all types of triangles to check their format.
+
+- Isoseles:
+  ```python
+      def create_vertices(self, vertices: list):
+        super().create_vertices(vertices)
+        if any(count == 2 for count in self.frec.values()):
+            self.set_vertices(vertices)
+            return True
+        else:
+            raise ValueError("Isosceles must have 2 equal sides")
+  ```
+- Equilateral:
+    ```python
+        def create_vertices(self, vertices: list):
+        super().create_vertices(vertices)
+        if all(count == 3 for count in self.frec.values()):
+            self.set_vertices(vertices)
+            return True
+        else:
+            raise ValueError("Equilateral must have 3 equal sides")
+    ```
+- Scalene
+    ```python
+        def create_vertices(self, vertices: list):
+        super().create_vertices(vertices)
+        if all(count == 1 for count in self.frec.values()):
+            self.set_vertices(vertices)
+            return True
+        else:
+            raise ValueError("Scalene must have 3 unequal sides")
+    ```
+- TriRectangle:
+
+    With this triangle, I didn't use the frequency dictionary. Instead, I added a new method called create_tri_rectangle. With this method, I checked the inner angles to determine if it was a 90-degree triangle. If it was, I returned True; otherwise, I raised a ValueError:
+```python
+          def create_tri_rectangle(
+        self,
+    ):
+        if any(inner_angle == 90 for inner_angle in self.get_inner_angles()):
+            return True
+        else:
+            raise ValueError("TriRectangle must have a 90 degree inner angle")
+
+  ```
+#### Final step
+Finally, I added the corresponding try-except blocks for each shape creation in the main.py file to handle any potential exceptions that may occur during the program's execution.
+  
