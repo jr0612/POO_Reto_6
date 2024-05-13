@@ -314,7 +314,7 @@ print(perform_max_consecutive_sum("hello there"))
 
 ### Anagrams
 #### original code
-```pyton
+```python
 def find_anagrams(words: list) -> list:
     anagrams_dict = {}
     for word in words:
